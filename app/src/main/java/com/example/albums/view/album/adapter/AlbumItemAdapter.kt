@@ -7,6 +7,7 @@ import com.bumptech.glide.Glide
 import com.example.albums.R
 import com.example.albums.data.model.AlbumPhotoModel
 import com.example.albums.databinding.ItemAlbumBinding
+import com.example.albums.utils.FileUtils
 
 class AlbumItemAdapter constructor(val func: (AlbumPhotoModel) -> Unit) :
     RecyclerView.Adapter<AlbumItemAdapter.ViewHolder>() {
@@ -25,6 +26,7 @@ class AlbumItemAdapter constructor(val func: (AlbumPhotoModel) -> Unit) :
     fun addData(values: List<AlbumPhotoModel>) {
         this.values.clear()
         this.values.addAll(values)
+        notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -47,7 +49,8 @@ class AlbumItemAdapter constructor(val func: (AlbumPhotoModel) -> Unit) :
             binding.tvName.text = album.name
             binding.tvQuantity.text = size.toString()
             if (size > 0) {
-                Glide.with(binding.root.context).load(album.photos[0].imagePath).into(binding.ivAlbum)
+                FileUtils.loadImage(binding.root.context, album.photos[0], binding.ivAlbum)
+//                Glide.with(binding.root.context).load(album.photos[0].imagePath).into(binding.ivAlbum)
             } else {
                 Glide.with(binding.root.context).load(R.drawable.ic_no_image).into(binding.ivAlbum)
             }

@@ -20,15 +20,6 @@ class PicturesViewModel : ViewModel() {
     private val fileRepository: FileRepository by lazy { FileRepositoryImpl() }
     private val _files = MutableLiveData<List<FileModel>>()
     val files: LiveData<List<FileModel>> = _files
-//    private val disposables = CompositeDisposable()
-
-//    private var mSort: TypeSort = TypeSort.TYPE_NAME
-//    private var currLoc: String = FileConfigs.defaultStorage()
-
-//    fun sortBy(sort: TypeSort) {
-//        mSort = sort
-//        getListData(currLoc)
-//    }
 
     fun getListData(context: Context) {
         viewModelScope.launch(Dispatchers.Main) {
@@ -44,20 +35,25 @@ class PicturesViewModel : ViewModel() {
         data.addAll(images.map {
             FileModel().apply {
                 this.name = it.albumName
+                this.albumName = it.albumName
                 this.path = it.imagePath
                 this.type = it.type
+                this.dateTimeCreated = it.dateModified
             }
         })
 
         data.addAll(videos.map {
             FileModel().apply {
                 this.name = it.videoTitle
+                this.albumName = it.albumName
                 this.path = it.path
                 this.type = it.type
                 this.durationLong = it.numberDuration
+                this.dateTimeCreated = it.dateModified
             }
         })
         Log.e("ttt", "showData: ${data.size}")
+        data.sortBy { it.dateTimeCreated }
         _files.value = data
     }
 }

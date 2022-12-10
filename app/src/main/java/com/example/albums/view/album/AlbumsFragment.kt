@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.albums.databinding.FragmentAlbumsListBinding
 import com.example.albums.utils.StoreUtil
 import com.example.albums.view.album.adapter.AlbumItemAdapter
+import com.example.albums.view.picture.PicturesViewModel
 
 /**
  * A fragment representing a list of Items.
@@ -19,6 +21,8 @@ class AlbumsFragment : Fragment() {
     private var albumItemAdapter: AlbumItemAdapter? = null
     private var _binding: FragmentAlbumsListBinding? = null
     private val binding: FragmentAlbumsListBinding get() = _binding!!
+
+    private val albumsViewModel: AlbumsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +37,16 @@ class AlbumsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAlbumsListBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupUI()
+        setupObserver()
+    }
+
+    private fun setupUI() {
         // Set the adapter
         binding.list.apply {
             albumItemAdapter = AlbumItemAdapter {
@@ -42,10 +55,13 @@ class AlbumsFragment : Fragment() {
             layoutManager = GridLayoutManager(context, 2)
             adapter = albumItemAdapter
         }
+    }
 
-        val albums = StoreUtil.getAlbumPhoto(requireContext())
-        albumItemAdapter?.addData(albums)
-        return binding.root
+    private fun setupObserver() {
+        albumsViewModel.files.observe(viewLifecycleOwner) {
+            albumItemAdapter?.addData(it)
+        }
+        albumsViewModel.getAlbums(requireContext())
     }
 
     companion object {
