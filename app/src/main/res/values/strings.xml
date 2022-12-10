@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Albums</string>
+    <string name="tab_pictures">Pictures</string>
+    <string name="tab_albums">Albums</string>
+    <string name="tab_stories">Stories</string>
+    <string name="tab_shared">Shared</string>
+    <string name="text_videos">Videos</string>
+    <string name="text_favorite">Favorites</string>
+    <string name="text_recent">Recent</string>
+    <string name="text_suggested">Suggested</string>
+    <string name="title_activity_favorite">FavoriteActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+</resources>
